@@ -8,13 +8,17 @@ from django.shortcuts import render, redirect
 
 from .decorators import unauthenticated_user
 from .forms import CreateUserForm, ProfileForm, ResultForm
+from .models import PredictedModel
 
 
 # Create your views here.
 
 @login_required(login_url='login')
 def index(request):
-    return render(request, 'profileapp/home.html')
+    obj = PredictedModel.objects.filter(profile=request.user.profile)
+    context = {'obj': obj}
+    return render(request, 'profileapp/home.html', context)
+
 
 @login_required(login_url='login')
 def profile(request):
@@ -27,7 +31,7 @@ def profile(request):
             return redirect('/')
     else:
         form = ProfileForm(instance=request.user.profile)
-    context = {'form':form}
+    context = {'form': form}
     return render(request, 'profileapp/profile.html', context)
 
 
@@ -38,16 +42,18 @@ def predictions(request):
         if form.is_valid():
             new_obj = form.save()
             form_data = request.POST.dict()
-            data = pd.DataFrame({'OpenDays': form_data['open_days'].apply(numpy.log),
-                      'Big Cities': form_data['big_cities'], 'Other': form_data['other'],
-                     'P2': form_data['P2'], 'P8': form_data['P8'], 'P22': form_data['P22'],
-                      'P24': form_data['P24'], 'P28': form_data['P28'], 'P26': form_data['P26']})
-            model = joblib.load("../random_forest.joblib")
+            print(form_data)
+            data = pd.DataFrame(
+                {'OpenDays': [numpy.int64(int(form_data['open_days']))],
+                 'Big Cities': form_data['big_cities'], 'Other': not form_data['big_cities'],
+                 'P2': form_data['P2'], 'P8': form_data['P8'], 'P22': form_data['P22'],
+                 'P24': form_data['P24'], 'P28': form_data['P28'], 'P26': form_data['P26']})
+            model = joblib.load("/Users/hak/PycharmProjects/Django-Complete-Profile-project/random_forest.joblib")
             predicted_results = model.predict(data)
+            print(predicted_results)
             new_obj.profile = request.user.profile
             new_obj.results = str(predicted_results[0])
             new_obj.save()
-            # messages.success(request, f'{username}, Your profile is updated.')
             return redirect('/')
     else:
         form = ResultForm(request.POST)
@@ -57,7 +63,6 @@ def predictions(request):
 
 @unauthenticated_user
 def login_user(request):
-
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -71,6 +76,7 @@ def login_user(request):
             messages.info(request, 'Wrong passwrod or username')
             return redirect('login')
     return render(request, 'profileapp/login_page.html')
+
 
 @unauthenticated_user
 def register_user(request):
@@ -90,9 +96,9 @@ def register_user(request):
     context = {'form': form}
     return render(request, 'profileapp/register_page.html', context)
 
+
 @login_required(login_url='login')
 def logout_user(request):
     logout(request)
     messages.info(request, 'You logged out successfully')
     return redirect('login')
-

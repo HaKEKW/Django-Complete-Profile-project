@@ -25,18 +25,9 @@ class Profile(models.Model):
 
 
 class PredictedModel(models.Model):
-    DAYS = [(1, 1),
-            (2, 2),
-            (3, 3),
-            (4, 4),
-            (5, 5),
-            (6, 6),
-            (7, 7),
-            ]
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE,  null=True)
-    open_days = models.IntegerField(choices=DAYS, default=1)
-    big_cities = models.BooleanField(default=False)
-    other = models.BooleanField(default=False)
+    open_days = models.IntegerField(default=1)
+    big_cities = models.BooleanField(default=True)
     P2 = models.FloatField()
     P8 = models.IntegerField()
     P22 = models.IntegerField()
