@@ -1,10 +1,11 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import Profile
+from .models import Profile, PredictedModel
 from django.forms.models import ModelForm
 
 from django.forms.widgets import FileInput
+
 
 class CreateUserForm(UserCreationForm):
     class Meta:
@@ -20,3 +21,10 @@ class ProfileForm(ModelForm):
         widgets = {
          'profile_img': FileInput(),
          }
+
+
+class ResultForm(ModelForm):
+    class Meta:
+        model = PredictedModel
+        fields = '__all__'
+        exclude = ['profile', 'results']

@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+
+    <title>Predict</title>
+</head>
+<body>
+<header>
+    <nav class="navbar">
+        <p class="logo">Profile</p>
+        <a class="profile-icon-link-container" href="{% url 'profile' %}">
+            <img src="{% static 'images/default.svg' %}" alt="profile-icon">
+            <span class="header-username">Hello, {{ user }}</span>
+        </a>
+    </nav>
+</header>
+
+<main class="main-container">
+    <form class='container' action="" method="POST" enctype="multipart/form-data">
+        <div class="profile-photo-container profile-photo-form-container">
+            <p class="profile-page-heading">Make predictions</p>
+        </div>
+
+        <div class="user-content-container user-profile-form-container">
+            {% csrf_token %}
+            <form class="" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group mb-3">
+                        {% if field.errors %}
+                            <div class="alert alert-danger">
+                                {{ field.errors }}
+                            </div>
+                        {% endif %}
+                        {{ field.label }}
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <button type="submit" name="button" class="btn btn-primary">Make Prediction</button>
+            </form>
+            {#            <ul>#}
+            {#                <li class="name">#}
+            {#                    <label for="Open-Days">Open Days </label>#}
+            {#                    {{ form.open_days }}#}
+            {#                </li>#}
+            {#                <li class="title">#}
+            {#                    <label for="big-city">Big city</label>#}
+            {#                    {{ form.big_cities }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">Other</label>#}
+            {#                    {{ form.other }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P2</label>#}
+            {#                    {{ form.p2 }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P8</label>#}
+            {#                    {{ form.p8 }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P22</label>#}
+            {#                    {{ form.p22 }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P24</label>#}
+            {#                    {{ form.p24 }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P28</label>#}
+            {#                    {{ form.p28 }}#}
+            {#                </li>#}
+            {#                <li class="name">#}
+            {#                    <label for="other">P26</label>#}
+            {#                    {{ form.p26 }}#}
+            {#                </li>#}
+            </ul>
+            <button class="profile-save-button"> Make Prediction
+            </button>
+            {% csrf_token %}
+        </div>
+    </form>
+
+
+</main>
+</body>
+</html>

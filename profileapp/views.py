@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-
-from .forms import CreateUserForm, ProfileForm
-
+import joblib
+import numpy
+import pandas as pd
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
 from .decorators import unauthenticated_user
+from .forms import CreateUserForm, ProfileForm, ResultForm
+
+
 # Create your views here.
 
 @login_required(login_url='login')
@@ -26,6 +29,31 @@ def profile(request):
         form = ProfileForm(instance=request.user.profile)
     context = {'form':form}
     return render(request, 'profileapp/profile.html', context)
+
+
+@login_required(login_url='predict')
+def predictions(request):
+    if request.method == 'POST':
+        form = ResultForm(request.POST)
+        if form.is_valid():
+            new_obj = form.save()
+            form_data = request.POST.dict()
+            data = pd.DataFrame({'OpenDays': form_data['open_days'].apply(numpy.log),
+                      'Big Cities': form_data['big_cities'], 'Other': form_data['other'],
+                     'P2': form_data['P2'], 'P8': form_data['P8'], 'P22': form_data['P22'],
+                      'P24': form_data['P24'], 'P28': form_data['P28'], 'P26': form_data['P26']})
+            model = joblib.load("../random_forest.joblib")
+            predicted_results = model.predict(data)
+            new_obj.profile = request.user.profile
+            new_obj.results = str(predicted_results[0])
+            new_obj.save()
+            # messages.success(request, f'{username}, Your profile is updated.')
+            return redirect('/')
+    else:
+        form = ResultForm(request.POST)
+    context = {'form': form}
+    return render(request, 'profileapp/predict_table.html', context)
+
 
 @unauthenticated_user
 def login_user(request):

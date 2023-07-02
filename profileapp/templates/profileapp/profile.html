@@ -30,12 +30,13 @@
         <form class = 'container' action="" method="POST" enctype="multipart/form-data">
             <div class="profile-photo-container profile-photo-form-container">
                 <p class="profile-page-heading">Edit your profile</p>
-                <img src="{% static 'images/default.jpg' %}" alt="user-image" width="" srcset="">
+                <img src="{% static 'media/images/test_image.png' %}" alt="user-image" width="" srcset="">
 
             </div>
         
 
             <div class="user-content-container user-profile-form-container">
+                {% csrf_token %}
                 <ul>
                     <li class="name">
                         <label for="user-name">Your Name</label>
@@ -51,8 +52,11 @@
                     </li>
                 </ul>
                 <button class="profile-save-button"> Save </button>
+                {% csrf_token %}
             </div>
         </form>
+
+
     </main>
 
     <script>
