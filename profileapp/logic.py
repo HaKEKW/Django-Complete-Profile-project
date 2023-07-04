@@ -57,10 +57,12 @@ def calculate_column_averages(path):
 
         for column in columns:
             if column_counts[column] > 0:
-                column_averages[column] = column_sums[column] / column_counts[column]
+                column_averages[column] = round(column_sums[column] / column_counts[column], 2)
             else:
                 column_averages[column] = None
 
     return column_averages
+
+print(calculate_column_averages('../train.csv'))
 
 

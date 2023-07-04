@@ -25,6 +25,7 @@ class ProfileForm(ModelForm):
 
 
 class ResultForm(ModelForm):
+
     class Meta:
         model = PredictedModel
         fields = '__all__'

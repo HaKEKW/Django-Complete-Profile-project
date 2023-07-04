@@ -17,7 +17,7 @@ from django.forms.models import model_to_dict
 from .decorators import unauthenticated_user
 from .forms import CreateUserForm, ProfileForm, ResultForm
 from .models import PredictedModel
-from .logic import find_random_value
+from .logic import find_random_value, calculate_column_averages
 
 logger = logging.getLogger('views.py')
 
@@ -48,12 +48,12 @@ def profile(request):
 
 @login_required(login_url='login')
 def predictions(request):
+    initial_data = calculate_column_averages('train.csv')
     if request.method == 'POST':
-        form = ResultForm(request.POST)
+        form = ResultForm(request.POST, initial=initial_data)
         if form.is_valid():
             new_obj = form.save()
             new_obj.profile = request.user.profile
-            # new_obj.results = str(predicted_results[0])
             new_obj.results = find_random_value('train.csv')
             new_obj.save()
             logger.info('Форма заполнена успешно, данные подсчитаны', request.path)
