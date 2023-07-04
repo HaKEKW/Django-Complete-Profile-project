@@ -25,8 +25,6 @@ class ProfileForm(ModelForm):
 
 
 class ResultForm(ModelForm):
-    # big_cities = forms.BooleanField(widget=forms.CheckboxInput())
-
     class Meta:
         model = PredictedModel
         fields = '__all__'

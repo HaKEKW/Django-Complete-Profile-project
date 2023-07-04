@@ -52,22 +52,11 @@ def predictions(request):
         form = ResultForm(request.POST)
         if form.is_valid():
             new_obj = form.save()
-            form_data = request.POST.dict()
-
-            print(form_data)
-            # data = pd.DataFrame(
-            #     {'OpenDays': [numpy.int64(int(form_data['open_days']))],
-            #      'Big Cities': form_data['big_cities'], 'Other': not form_data['big_cities'],
-            #      'P2': form_data['P2'], 'P8': form_data['P8'], 'P22': form_data['P22'],
-            #      'P24': form_data['P24'], 'P28': form_data['P28'], 'P26': form_data['P26']})
-            # model = joblib.load("/Users/hak/PycharmProjects/Django-Complete-Profile-project/random_forest.joblib")
-            # predicted_results = model.predict(data)
-            # print(predicted_results)
             new_obj.profile = request.user.profile
             # new_obj.results = str(predicted_results[0])
-            new_obj.results = find_random_value('../train.csv')
+            new_obj.results = find_random_value('train.csv')
             new_obj.save()
-            logger.info('Форма заполнена успешно, данные подсчитаны', request.path, new_obj.results)
+            logger.info('Форма заполнена успешно, данные подсчитаны', request.path)
             return redirect('/')
     else:
         form = ResultForm(request.POST)

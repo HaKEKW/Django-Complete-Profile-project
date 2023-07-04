@@ -36,5 +36,31 @@ def find_min_max_revenue(csv_file_path):
 def find_random_value(path):
     min, max = find_min_max_revenue(path)
     random_value = randint(min, max)
-    print(random_value)
+    return random_value
+
+
+
+def calculate_column_averages(path):
+    column_averages = {}
+
+    with open(path, 'r') as file:
+        reader = csv.DictReader(file)
+        columns = [f'P{i}' for i in range(1, 38)]
+        column_sums = {column: 0 for column in columns}
+        column_counts = {column: 0 for column in columns}
+
+        for row in reader:
+            for column in columns:
+                if row[column] != '':
+                    column_sums[column] += float(row[column])
+                    column_counts[column] += 1
+
+        for column in columns:
+            if column_counts[column] > 0:
+                column_averages[column] = column_sums[column] / column_counts[column]
+            else:
+                column_averages[column] = None
+
+    return column_averages
+
 
