@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
 
 from .models import Profile, PredictedModel
 from django.forms.models import ModelForm
@@ -24,6 +25,8 @@ class ProfileForm(ModelForm):
 
 
 class ResultForm(ModelForm):
+    # big_cities = forms.BooleanField(widget=forms.CheckboxInput())
+
     class Meta:
         model = PredictedModel
         fields = '__all__'
