@@ -1,6 +1,9 @@
+from random import randint
+
 import joblib
 import numpy
 import pandas as pd
+import csv
 
 
 def make_prediction(form_data: dict):
@@ -18,11 +21,20 @@ def make_prediction(form_data: dict):
     predicted_results = model.predict(data)
     print(predicted_results)
 
-data = pd.DataFrame(
-        {'OpenDays': [numpy.int64(2)],
-         'Big Cities': True, 'Other': False,
-         'P2': 1, 'P8': 2, 'P22': 1,
-         'P24': 1, 'P28': 2, 'P26': 3})
-model = joblib.load("../random_forest.joblib")
-predicted_results = model.predict(data)
-print(predicted_results)
+
+def find_min_max_revenue(csv_file_path):
+    with open(csv_file_path, 'r') as file:
+        reader = csv.DictReader(file)
+        revenues = [float(row['revenue']) for row in reader]
+
+    min_revenue = min(revenues)
+    max_revenue = max(revenues)
+
+    return min_revenue, max_revenue
+
+
+def find_random_value(path):
+    min, max = find_min_max_revenue(path)
+    random_value = randint(min, max)
+    print(random_value)
+

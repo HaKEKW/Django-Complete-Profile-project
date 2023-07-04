@@ -30,7 +30,7 @@
         <form class = 'container' action="" method="POST" enctype="multipart/form-data">
             <div class="profile-photo-container profile-photo-form-container">
                 <p class="profile-page-heading">Edit your profile</p>
-                <img src="{% static 'media/images/test_image.png' %}" alt="user-image" width="" srcset="">
+                <img src="{% static 'images/default.svg' %}" alt="user-image" width="" srcset="">
 
             </div>
         
@@ -42,17 +42,8 @@
                         <label for="user-name">Your Name</label>
                         {{form.name}}
                     </li>
-                    <li class="title">
-                        <label for="user-title">Your title</label>
-                        {{form.title}}
-                    </li>
-                    <li class="desc">
-                        <label for="user-desc">Description</label>
-                        {{form.desc}}
-                    </li>
                 </ul>
                 <button class="profile-save-button"> Save </button>
-                {% csrf_token %}
             </div>
         </form>
 

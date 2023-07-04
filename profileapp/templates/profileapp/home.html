@@ -54,17 +54,18 @@
 <main class="main-container">
     <div class="container">
         <div class="profile-photo-container">
-            <img src="{{ user.profile.profile_img.url }}" alt="User Image" width="100px" srcset="">
+            <img src="{% static 'images/default.svg' %}" alt="User Image" width="100px" srcset="">
         </div>
 
 
         <div class="user-content-container">
             <p class="username">{{ user.profile.name }}</p>
-            <p class="user-title">{{ user.profile.title }}</p>
-            <p class="user-desc">{{ user.profile.desc }}</p>
+            <p class="user-title">Latest results</p>
+            <p class="user-desc">{{ latest_obj.results }}</p>
             <div class="profile-edit-link-container">
                 <a href="{% url 'profile' %}">Edit</a>
             </div>
+            <a href="{% url 'download_pdf' %}">Скачать PDF</a>
         </div>
     </div>
     <table class="table table-dark">
@@ -72,7 +73,7 @@
         <tr>
             <th scope="col">Profile</th>
             <th scope="col">Open Days</th>
-            <th scope="col">Results</th>
+            <th scope="col">Revenue</th>
         </tr>
         </thead>
         <tbody>
