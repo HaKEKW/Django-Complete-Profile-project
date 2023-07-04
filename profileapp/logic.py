@@ -63,6 +63,4 @@ def calculate_column_averages(path):
 
     return column_averages
 
-print(calculate_column_averages('../train.csv'))
-
 

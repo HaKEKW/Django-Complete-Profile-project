@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django import forms
 
 from .models import Profile, PredictedModel
-from django.forms.models import ModelForm
+from django.forms import ModelForm
 
 from django.forms.widgets import FileInput
 
@@ -25,7 +25,6 @@ class ProfileForm(ModelForm):
 
 
 class ResultForm(ModelForm):
-
     class Meta:
         model = PredictedModel
         fields = '__all__'

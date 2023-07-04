@@ -32,7 +32,7 @@ class PredictedModel(models.Model):
     )
     big_cities = models.IntegerField(choices=TRUE)
     type = models.TextField(choices=TYPES, default='IL')
-    P1 = models.FloatField(default=averages['P1'])
+    P1 = models.FloatField()
     P2 = models.FloatField(default=averages['P2'])
     P3 = models.FloatField(default=averages['P3'])
     P4 = models.FloatField(default=averages['P4'])

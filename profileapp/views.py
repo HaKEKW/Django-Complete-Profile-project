@@ -49,6 +49,7 @@ def profile(request):
 @login_required(login_url='login')
 def predictions(request):
     initial_data = calculate_column_averages('train.csv')
+    print(initial_data)
     if request.method == 'POST':
         form = ResultForm(request.POST, initial=initial_data)
         if form.is_valid():
