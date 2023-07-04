@@ -65,7 +65,9 @@
             <div class="profile-edit-link-container">
                 <a href="{% url 'profile' %}">Edit</a>
             </div>
+            {% if latest_obj %}
             <a href="{% url 'download_pdf' %}">Скачать PDF</a>
+            {% endif %}
         </div>
     </div>
     <table class="table table-dark">
