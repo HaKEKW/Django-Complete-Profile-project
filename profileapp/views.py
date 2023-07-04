@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponse
 from django.shortcuts import render
 from reportlab.pdfgen import canvas
 import json
@@ -117,10 +117,9 @@ def download_pdf(request):
     for key, value in data.items():
         text = f"{key}: {value}"
         pdf.drawString(50, y, text)
-        y -= 20
-    # pdf.showPage()
+        y -= 10
     pdf.save()
     buffer.seek(0)
-    response = FileResponse(content_type='application/pdf')
+    response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = 'attachment; filename="data.pdf"'
     return response
